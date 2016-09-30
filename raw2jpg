@@ -1,32 +1,9 @@
 #!/usr/bin/env python3
 
-import io
 import sys
-import os
-import rawlib
 
-from PIL import Image
+import rawlib
 
 
 for nef in sys.argv[1:]:
-    jpg = (os.path.dirname(nef) or '.') + '/jpg/' + '.'.join(os.path.basename(nef).split('.')[:-1]) + '.from_raw.jpg'
-    try:
-        os.mkdir(os.path.dirname(jpg))
-    except FileExistsError:
-        pass
-
-    print('{} => {}'.format(nef, jpg))
-
-    exif = rawlib.get_metadata(path=nef)
-    orientation = exif.get_orientation()
-
-    im_bytes = io.BytesIO(rawlib.get_preview_bytes(exif))
-
-    im = Image.open(im_bytes)
-    width, height = im.size
-    im.thumbnail((1920, 1920))
-    im.save(jpg)
-    exif2 = rawlib.get_metadata(path=jpg)
-    exif2.set_orientation(orientation)
-
-    exif2.save_file(jpg)
+    rawlib.miniature(nef)
