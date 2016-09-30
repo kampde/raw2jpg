@@ -1,5 +1,6 @@
 import io
 import os
+import re
 
 from PIL import Image
 from gi import require_version
@@ -52,3 +53,9 @@ def miniature(nef):
     exif2.set_orientation(orientation)
 
     exif2.save_file(jpg)
+
+
+def find_raws(folder, *, listdir=None):
+    listdir = listdir or os.listdir
+    rule = re.compile(r'\.nef$', re.IGNORECASE)
+    return [os.path.join(folder, name) for name in listdir(folder) if rule.search(name)]
