@@ -21,4 +21,3 @@ class TestFindRaws(TestCase):
                                                              ])])
         self.assertEqual([self.folder + '/a.nef', self.folder + '/B.NEF'],
                          find_raws(self.folder, listdir=self.listdir))
-

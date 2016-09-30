@@ -18,6 +18,10 @@ class ProcessFolderTest(TestCase):
                                                           self.directory + '/b.nef'
                                                           ])])
         miniature = Mock()
-        process_folder(self.directory, find_raws_fn=find_raws, miniature_fn=miniature)
+
+        process_folder(self.directory,
+                       find_raws_fn=find_raws,
+                       miniature_fn=miniature)
+
         miniature.assert_has_calls([call(self.directory + '/a.nef'),
                                     call(self.directory + '/b.nef')])
