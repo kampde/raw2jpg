@@ -1,18 +1,24 @@
 #!/usr/bin/env python3
 
-from argparse import ArgumentParser
+from configargparse import ArgumentParser
+import os
 
 import rawlib
 
 
 def main():
-    parser = ArgumentParser()
+    cfg_home = os.getenv('XDG_CONFIG_HOME', '~/.config')
+    parser = ArgumentParser(default_config_files=[cfg_home + '/raw2jpg.conf'])
     parser.add_argument('directories', metavar='DIRECTORY', nargs='*',
                         help='Directory to process')
+    parser.add_argument('-s', '--size', default=1920, type=int,
+                        help='Size to generate the jpgs (max edge)')
     args = parser.parse_args()
 
     for directory in args.directories:
-        rawlib.process_folder(directory)
+        print("Generating jpgs from folder {} (size: {})".format(directory,
+                                                                 args.size))
+        rawlib.process_folder(directory, size=args.size)
 
 if __name__ == '__main__':
     main()

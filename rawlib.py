@@ -28,7 +28,7 @@ def get_metadata(path):
     return exif
 
 
-def miniature(nef):
+def miniature(nef, size):
     jpg = '{nefpath}/jpg/{filename}.from_raw.jpg'.format(
         nefpath=(os.path.dirname(nef) or '.'),
         filename='.'.join(os.path.basename(nef).split('.')[:-1])
@@ -46,7 +46,7 @@ def miniature(nef):
     im_bytes = io.BytesIO(get_preview_bytes(exif))
 
     img = Image.open(im_bytes)
-    img.thumbnail((1920, 1920))
+    img.thumbnail((size, size))
     img.save(jpg)
     exif2 = get_metadata(path=jpg)
     exif2.set_orientation(orientation)
@@ -62,8 +62,8 @@ def find_raws(folder, *, listdir=None):
             if rule.search(name)]
 
 
-def process_folder(directory, *, find_raws_fn=None, miniature_fn=None):
+def process_folder(directory, size, *, find_raws_fn=None, miniature_fn=None):
     find_raws_fn = find_raws_fn or find_raws
     miniature_fn = miniature_fn or miniature
     for nef in find_raws_fn(directory):
-        miniature_fn(nef)
+        miniature_fn(nef, size)
