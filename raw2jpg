@@ -1,9 +1,18 @@
 #!/usr/bin/env python3
 
-import sys
+from argparse import ArgumentParser
 
 import rawlib
 
 
-for nef in sys.argv[1:]:
-    rawlib.miniature(nef)
+def main():
+    parser = ArgumentParser()
+    parser.add_argument('raw_files', metavar='RAWFILE', nargs='*',
+                        help='Raw files to process')
+    args = parser.parse_args()
+
+    for nef in args.raw_files:
+        rawlib.miniature(nef)
+
+if __name__ == '__main__':
+    main()
