@@ -59,3 +59,10 @@ def find_raws(folder, *, listdir=None):
     listdir = listdir or os.listdir
     rule = re.compile(r'\.nef$', re.IGNORECASE)
     return [os.path.join(folder, name) for name in listdir(folder) if rule.search(name)]
+
+
+def process_folder(directory, *, find_raws_fn=None, miniature_fn=None):
+    find_raws_fn = find_raws_fn or find_raws
+    miniature_fn = miniature_fn or miniature
+    for nef in find_raws_fn(directory):
+        miniature_fn(nef)

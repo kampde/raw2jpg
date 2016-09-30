@@ -7,7 +7,7 @@ faster review workflow. Thumbnails are created in the `jpg` subfolder.
 Usage
 -----
 
-    ./raw2jpg *.NEF
+    ./raw2jpg directory_full_of_raw_files
 
 
 **Important**: This is merely an alpha version. Everything is subject to
