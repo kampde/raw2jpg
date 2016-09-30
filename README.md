@@ -21,6 +21,19 @@ Current options are:
                        keep aspect ratio).
 
 
+Installation
+============
+
+`raw2jpg` relies on [gexiv2](https://wiki.gnome.org/Projects/gexiv2) for
+extracting the jpg thumbnail from the raw file and reading and setting exif
+metadata.  Probably you'll find the needed package in your distro's repository
+(`libgexiv2-python3` in Fedora 24 or `libexiv2-dev` in Ubuntu)
+
+Also, install pip dependencies:
+
+    # pip3 install -r requirements.txt
+
+
 Stability
 =========
 
