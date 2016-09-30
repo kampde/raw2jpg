@@ -17,6 +17,7 @@ Options may be specified in the command line or in a config file in
 
 Current options are:
 
+    --overwrite=BOOL   Overwrite existing JPGs
     -s, --size=SIZE    Use SIZExSIZE as the size of the generated JPG (will
                        keep aspect ratio).
 

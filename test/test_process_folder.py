@@ -12,6 +12,7 @@ class ProcessFolderTest(TestCase):
 
     def test_process_folder_calls_miniature_on_all_raw_files_in_folder(self):
         size = 'a fake size'
+        overwrite = 'a fake overwrite'
         find_raws = Mock()
         find_raws.side_effect = configure_return_value('rawlib.find_raws',
                                                        [(call(self.directory),
@@ -22,8 +23,9 @@ class ProcessFolderTest(TestCase):
 
         process_folder(self.directory,
                        size=size,
+                       overwrite=overwrite,
                        find_raws_fn=find_raws,
                        miniature_fn=miniature)
 
-        miniature.assert_has_calls([call(self.directory + '/a.nef', size),
-                                    call(self.directory + '/b.nef', size)])
+        miniature.assert_has_calls([call(self.directory + '/a.nef', size, overwrite),
+                                    call(self.directory + '/b.nef', size, overwrite)])

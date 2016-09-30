@@ -28,11 +28,19 @@ def get_metadata(path):
     return exif
 
 
-def miniature(nef, size):
+def miniature(nef, size, overwrite):
     jpg = '{nefpath}/jpg/{filename}.from_raw.jpg'.format(
         nefpath=(os.path.dirname(nef) or '.'),
         filename='.'.join(os.path.basename(nef).split('.')[:-1])
     )
+
+    if os.path.exists(jpg):
+        if not overwrite:
+            print('file {} already exists. Skipping...'.format(jpg))
+            return
+        else:
+            print('file {} exists; overwriting it as desired'.format(jpg))
+
     try:
         os.mkdir(os.path.dirname(jpg))
     except FileExistsError:
@@ -62,8 +70,9 @@ def find_raws(folder, *, listdir=None):
             if rule.search(name)]
 
 
-def process_folder(directory, size, *, find_raws_fn=None, miniature_fn=None):
+def process_folder(directory, size, overwrite,
+                   *, find_raws_fn=None, miniature_fn=None):
     find_raws_fn = find_raws_fn or find_raws
     miniature_fn = miniature_fn or miniature
     for nef in find_raws_fn(directory):
-        miniature_fn(nef, size)
+        miniature_fn(nef, size, overwrite)
