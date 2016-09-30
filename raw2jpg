@@ -19,6 +19,14 @@ def get_preview_bytes(exif):
             ind = i
     return exif.get_preview_image(props[i]).get_data()
 
+def get_metadata(path):
+    try:
+        exif = GExiv2.Metadata(path=nef)
+    except TypeError:
+        exif = GExiv2.Metadata()
+        exif.open_path(path)
+    return exif
+
 
 for nef in sys.argv[1:]:
     jpg = (os.path.dirname(nef) or '.') + '/jpg/' + '.'.join(os.path.basename(nef).split('.')[:-1]) + '.from_raw.jpg'
@@ -29,8 +37,8 @@ for nef in sys.argv[1:]:
 
     print('{} => {}'.format(nef, jpg))
 
-    exif = GExiv2.Metadata(path=nef)
-    orientation = exif['Exif.Image.Orientation']
+    exif = get_metadata(path=nef)
+    orientation = exif.get_orientation()
 
     im_bytes = io.BytesIO(get_preview_bytes(exif))
 
@@ -38,7 +46,7 @@ for nef in sys.argv[1:]:
     width, height = im.size
     im.thumbnail((1920, 1920))
     im.save(jpg)
-    exif2 = GExiv2.Metadata(path=jpg)
-    exif2['Exif.Image.Orientation'] = orientation
+    exif2 = get_metadata(path=jpg)
+    exif2.set_orientation(orientation)
 
-    exif2.save_file()
+    exif2.save_file(jpg)
