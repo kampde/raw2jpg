@@ -28,7 +28,10 @@ def get_metadata(path):
 
 
 def miniature(nef):
-    jpg = (os.path.dirname(nef) or '.') + '/jpg/' + '.'.join(os.path.basename(nef).split('.')[:-1]) + '.from_raw.jpg'
+    jpg = '{nefpath}/jpg/{filename}.from_raw.jpg'.format(
+        nefpath=(os.path.dirname(nef) or '.'),
+        filename='.'.join(os.path.basename(nef).split('.')[:-1])
+    )
     try:
         os.mkdir(os.path.dirname(jpg))
     except FileExistsError:
